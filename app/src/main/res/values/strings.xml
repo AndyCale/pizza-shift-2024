@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">pizza-shift-2024</string>
+
+    <string name="Pizza">Пицца</string>
 </resources>
