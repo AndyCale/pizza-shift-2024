@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.data.PizzaAPI
 import com.example.pizza_shift_2024.data.PizzaInformation
@@ -31,13 +32,16 @@ class MainActivity : AppCompatActivity() {
     private val listDescription = ArrayList<String>()
     private val listPrice = ArrayList<String>()
 
+    val retrofit = Retrofit.Builder()
+        .baseUrl("https://shift-backend.onrender.com/")
+        .addConverterFactory(GsonConverterFactory.create()).build()
+    val pizzaAPI = retrofit.create(PizzaAPI::class.java)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val dexOutputDir: File = codeCacheDir
-        dexOutputDir.setReadOnly()
 
         fillListOfPizza()
 
@@ -48,13 +52,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fillListOfPizza() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://shift-backend.onrender.com/")
-            .addConverterFactory(GsonConverterFactory.create()).build()
-        val pizzaAPI = retrofit.create(PizzaAPI::class.java)
-
-
-        CoroutineScope(Dispatchers.IO).launch() {
+        lifecycleScope.launch() {
             val pizza = pizzaAPI.getPizza()
 
             if (pizza.success == true) {
@@ -84,13 +82,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calculatePrice(pizza: PizzaInformation) {
-        runOnUiThread {
-            for (onePizza in pizza.catalog) {
-                val price = onePizza.sizes[0].price + onePizza.doughs[0].price
+        for (onePizza in pizza.catalog) {
+            val price = onePizza.sizes[0].price + onePizza.doughs[0].price
 
-                listPrice.add("от ${price} ₽") // цена из цены за размер + тесто
+            listPrice.add("от ${price} ₽") // цена из цены за размер + тесто
 
-            }
+
         }
     }
 }
