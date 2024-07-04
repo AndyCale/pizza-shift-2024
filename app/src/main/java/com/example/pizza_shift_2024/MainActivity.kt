@@ -1,11 +1,13 @@
 package com.example.pizza_shift_2024
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.data.PizzaAPI
+import com.example.pizza_shift_2024.data.PizzaInformation
 import com.example.pizza_shift_2024.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val listPictures = ArrayList<String>()
     private val listName = ArrayList<String>()
     private val listDescription = ArrayList<String>()
-    private val listPrice = ArrayList<Int>()
+    private val listPrice = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,9 +63,9 @@ class MainActivity : AppCompatActivity() {
                         listPictures.add(onePizza.img)
                         listName.add(onePizza.name)
                         listDescription.add(onePizza.description)
-                        listPrice.add(0) // цена из цены за размер + тесто
-
                     }
+
+                    calculatePrice(pizza)
 
                     val myAdapter = CustomBaseAdapter(this@MainActivity, listPictures,
                         listName, listDescription, listPrice)
@@ -81,7 +83,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun calculatePrice() {
+    private fun calculatePrice(pizza: PizzaInformation) {
+        runOnUiThread {
+            for (onePizza in pizza.catalog) {
+                val price = onePizza.sizes[0].price + onePizza.doughs[0].price
 
+                listPrice.add("от ${price} ₽") // цена из цены за размер + тесто
+
+            }
+        }
     }
 }
