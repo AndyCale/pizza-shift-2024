@@ -1,5 +1,8 @@
 package com.example.pizza_shift_2024.data
 
+import android.os.Parcelable
+import java.io.Serializable
+
 data class PizzaInformation(
     val success: Boolean,
     val reason: String,
@@ -31,7 +34,7 @@ data class Pizza(
       "isHit": true,
 
      */
-)
+) : Serializable
 
 data class Ingredients(
     val name: String,

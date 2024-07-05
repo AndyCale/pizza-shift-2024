@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         .baseUrl("https://shift-backend.onrender.com/")
         .addConverterFactory(GsonConverterFactory.create()).build()
     val pizzaAPI = retrofit.create(PizzaAPI::class.java)
+    private lateinit var pizza: PizzaInformation
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,14 +47,17 @@ class MainActivity : AppCompatActivity() {
         fillListOfPizza()
 
         binding.allPizza.setOnItemClickListener { parent, view, position, id ->
-            Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
+            supportFragmentManager.beginTransaction().replace(R.id.frameInfoPizza,
+                PizzaDetailsFragment.newInstance(pizza.catalog[position])).commit()
+
+            //Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
         }
 
     }
 
     private fun fillListOfPizza() {
         lifecycleScope.launch() {
-            val pizza = pizzaAPI.getPizza()
+            pizza = pizzaAPI.getPizza()
 
             if (pizza.success == true) {
                 runOnUiThread {
