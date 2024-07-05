@@ -9,4 +9,9 @@
     <string name="big">Большая</string>
     <string name="thin">Тонкое тесто</string>
     <string name="thick">Толстое тесто</string>
+
+    <string name="calories">ккал</string>
+    <string name="protein">белки</string>
+    <string name="totalFat">жиры</string>
+    <string name="carbohydrates">углеводы</string>
 </resources>

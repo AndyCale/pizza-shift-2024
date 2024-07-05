@@ -17,9 +17,10 @@ data class Pizza(
     val description: String,
     val sizes: List<Size>,
     val doughs: List<Size>,
-    val calories: Int,
+    val calories: String,
     val protein: String,
     val totalFat: String,
+    val carbohydrates: String,
     val img: String
 
     /*

@@ -1,17 +1,16 @@
 package com.example.pizza_shift_2024
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
+import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.data.Pizza
-import com.example.pizza_shift_2024.databinding.ActivityMainBinding
 import com.example.pizza_shift_2024.databinding.FragmentPizzaDetailsBinding
-import kotlinx.coroutines.flow.combine
+
 
 //private const val ARG_PARAM1 = "param1"
 //private const val ARG_PARAM2 = "param2"
@@ -31,7 +30,12 @@ class PizzaDetailsFragment : Fragment() {
     private var _binding: FragmentPizzaDetailsBinding? = null
     private val binding: FragmentPizzaDetailsBinding
         get() = _binding ?: throw IllegalStateException("Binding in Main Activity must not be null")
+
     private var pizza: Pizza? = null
+
+    var priceSize = 0
+    var priceDough = 0
+    var priceAdd = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,15 +56,56 @@ class PizzaDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (pizza != null) {
-            with(binding) {
-                Glide.with(context!!).
-                    load("https://shift-backend.onrender.com" + pizza!!.img).into(picture)
-                name.text = pizza!!.name
-                description.text = pizza!!.description
-            }
+        if (pizza == null) {
+            // завершить фрагмент с ошибкой
         }
-        Toast.makeText(context, pizza?.name, Toast.LENGTH_SHORT).show()
+        with(binding) {
+            Glide.with(context!!).
+                load("https://shift-backend.onrender.com" + pizza!!.img).into(picture)
+            name.text = pizza!!.name
+            description.text = pizza!!.description
+        }
+
+        binding.small.isChecked = true
+        binding.thin.isChecked = true
+        priceSize = pizza!!.sizes[0].price
+        priceDough = pizza!!.doughs[0].price
+        binding.price.text = "${priceSize + priceDough} ₽"
+
+        binding.calories.text = pizza!!.calories
+        binding.protein.text = pizza!!.protein
+        binding.totalFat.text = pizza!!.totalFat
+        binding.carbohydrates.text = pizza!!.carbohydrates
+
+        binding.size.setOnCheckedChangeListener { radioGroup, id ->
+            when(id) {
+                R.id.small -> {
+                    priceSize = pizza!!.sizes[0].price
+                }
+                R.id.medium -> {
+                    priceSize = pizza!!.sizes[1].price
+                }
+                R.id.big -> {
+                    priceSize = pizza!!.sizes[2].price
+                }
+            }
+            binding.price.text = "${priceSize + priceDough} ₽"
+        }
+
+        binding.dough.setOnCheckedChangeListener { radioGroup, id ->
+            when(id) {
+                R.id.thin -> {
+                    priceDough = pizza!!.doughs[0].price
+                }
+                R.id.thick -> {
+                    priceDough = pizza!!.doughs[1].price
+                }
+            }
+            binding.price.text = "${priceSize + priceDough} ₽"
+        }
+
+
+        //Toast.makeText(context, pizza?.name, Toast.LENGTH_SHORT).show()
         // здесь через binding можем что-то делать с элементами, например нажать кнопку в радио кнопке
     }
 
@@ -82,5 +127,9 @@ class PizzaDetailsFragment : Fragment() {
             }
     }
 
+
+    private fun calculatePrice(pizza: Pizza) {
+
+    }
 
 }
