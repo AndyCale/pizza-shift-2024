@@ -1,25 +1,15 @@
 package com.example.pizza_shift_2024
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.data.PizzaAPI
 import com.example.pizza_shift_2024.data.PizzaInformation
 import com.example.pizza_shift_2024.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import java.io.File
-import kotlin.coroutines.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -92,6 +82,16 @@ class MainActivity : AppCompatActivity() {
             listPrice.add("от ${price} ₽") // цена из цены за размер + тесто
 
 
+        }
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if (count == 0) {
+            super.onBackPressed()
+            //additional code
+        } else {
+            supportFragmentManager.popBackStack()
         }
     }
 }

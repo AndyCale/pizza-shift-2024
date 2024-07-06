@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.data.Pizza
 import com.example.pizza_shift_2024.databinding.FragmentPizzaDetailsBinding
@@ -49,33 +50,25 @@ class PizzaDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPizzaDetailsBinding.inflate(inflater)
+
         return binding.root
+
+
         //return inflater.inflate(R.layout.fragment_pizza_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (pizza == null) {
-            // завершить фрагмент с ошибкой
-        }
-        with(binding) {
-            Glide.with(context!!).
-                load("https://shift-backend.onrender.com" + pizza!!.img).into(picture)
-            name.text = pizza!!.name
-            description.text = pizza!!.description
-        }
+        initialFragment()
 
-        binding.small.isChecked = true
-        binding.thin.isChecked = true
-        priceSize = pizza!!.sizes[0].price
-        priceDough = pizza!!.doughs[0].price
-        binding.price.text = "${priceSize + priceDough} ₽"
-
-        binding.calories.text = pizza!!.calories
-        binding.protein.text = pizza!!.protein
-        binding.totalFat.text = pizza!!.totalFat
-        binding.carbohydrates.text = pizza!!.carbohydrates
+        binding.back.setOnClickListener {
+            val fm: FragmentManager? = fragmentManager
+            val ft: FragmentTransaction = fm!!.beginTransaction()
+            ft.remove(this)
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+            ft.commit()
+        }
 
         binding.size.setOnCheckedChangeListener { radioGroup, id ->
             when(id) {
@@ -103,20 +96,7 @@ class PizzaDetailsFragment : Fragment() {
             }
             binding.price.text = "${priceSize + priceDough} ₽"
         }
-
-
-        //Toast.makeText(context, pizza?.name, Toast.LENGTH_SHORT).show()
-        // здесь через binding можем что-то делать с элементами, например нажать кнопку в радио кнопке
     }
-
-    /*
-    companion object {
-        @JvmStatic
-        fun newInstance() = PizzaDetailsFragment()
-    }
-
-     */
-
 
     companion object {
         @JvmStatic
@@ -127,9 +107,34 @@ class PizzaDetailsFragment : Fragment() {
             }
     }
 
+    private fun initialFragment() {
+        if (pizza == null) {
+            Toast.makeText(context,"Что-то пошло не так", Toast.LENGTH_SHORT).show()
+            val fm: FragmentManager? = fragmentManager
+            val ft: FragmentTransaction = fm!!.beginTransaction()
+            ft.remove(this)
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+            ft.commit()
+        }
 
-    private fun calculatePrice(pizza: Pizza) {
+        with(binding) {
+            Glide.with(context!!).load("https://shift-backend.onrender.com" + pizza!!.img)
+                .into(picture)
+            name.text = pizza!!.name
+            description.text = pizza!!.description
 
+
+            small.isChecked = true
+            thin.isChecked = true
+            priceSize = pizza!!.sizes[0].price
+            priceDough = pizza!!.doughs[0].price
+            price.text = "${priceSize + priceDough} ₽"
+
+            calories.text = pizza!!.calories
+            protein.text = pizza!!.protein
+            totalFat.text = pizza!!.totalFat
+            carbohydrates.text = pizza!!.carbohydrates
+        }
     }
 
 }
