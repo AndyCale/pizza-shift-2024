@@ -60,6 +60,8 @@ class PizzaDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initialFragment()
+
         binding.back.setOnClickListener {
             val fm: FragmentManager? = fragmentManager
             val ft: FragmentTransaction = fm!!.beginTransaction()
@@ -67,33 +69,6 @@ class PizzaDetailsFragment : Fragment() {
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
             ft.commit()
         }
-
-        if (pizza == null) {
-            Toast.makeText(context,"Что-то пошло не так", Toast.LENGTH_SHORT).show()
-            val fm: FragmentManager? = fragmentManager
-            val ft: FragmentTransaction = fm!!.beginTransaction()
-            ft.remove(this)
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-            ft.commit()
-        }
-
-        with(binding) {
-            Glide.with(context!!).
-                load("https://shift-backend.onrender.com" + pizza!!.img).into(picture)
-            name.text = pizza!!.name
-            description.text = pizza!!.description
-        }
-
-        binding.small.isChecked = true
-        binding.thin.isChecked = true
-        priceSize = pizza!!.sizes[0].price
-        priceDough = pizza!!.doughs[0].price
-        binding.price.text = "${priceSize + priceDough} ₽"
-
-        binding.calories.text = pizza!!.calories
-        binding.protein.text = pizza!!.protein
-        binding.totalFat.text = pizza!!.totalFat
-        binding.carbohydrates.text = pizza!!.carbohydrates
 
         binding.size.setOnCheckedChangeListener { radioGroup, id ->
             when(id) {
@@ -130,6 +105,36 @@ class PizzaDetailsFragment : Fragment() {
                     putSerializable("pizza", pizza)
                 }
             }
+    }
+
+    private fun initialFragment() {
+        if (pizza == null) {
+            Toast.makeText(context,"Что-то пошло не так", Toast.LENGTH_SHORT).show()
+            val fm: FragmentManager? = fragmentManager
+            val ft: FragmentTransaction = fm!!.beginTransaction()
+            ft.remove(this)
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+            ft.commit()
+        }
+
+        with(binding) {
+            Glide.with(context!!).load("https://shift-backend.onrender.com" + pizza!!.img)
+                .into(picture)
+            name.text = pizza!!.name
+            description.text = pizza!!.description
+
+
+            small.isChecked = true
+            thin.isChecked = true
+            priceSize = pizza!!.sizes[0].price
+            priceDough = pizza!!.doughs[0].price
+            price.text = "${priceSize + priceDough} ₽"
+
+            calories.text = pizza!!.calories
+            protein.text = pizza!!.protein
+            totalFat.text = pizza!!.totalFat
+            carbohydrates.text = pizza!!.carbohydrates
+        }
     }
 
 }
