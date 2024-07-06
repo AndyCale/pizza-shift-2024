@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.data.Pizza
 import com.example.pizza_shift_2024.databinding.FragmentPizzaDetailsBinding
@@ -49,16 +50,33 @@ class PizzaDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPizzaDetailsBinding.inflate(inflater)
+
         return binding.root
+
+
         //return inflater.inflate(R.layout.fragment_pizza_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (pizza == null) {
-            // завершить фрагмент с ошибкой
+        binding.back.setOnClickListener {
+            val fm: FragmentManager? = fragmentManager
+            val ft: FragmentTransaction = fm!!.beginTransaction()
+            ft.remove(this)
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+            ft.commit()
         }
+
+        if (pizza == null) {
+            Toast.makeText(context,"Что-то пошло не так", Toast.LENGTH_SHORT).show()
+            val fm: FragmentManager? = fragmentManager
+            val ft: FragmentTransaction = fm!!.beginTransaction()
+            ft.remove(this)
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+            ft.commit()
+        }
+
         with(binding) {
             Glide.with(context!!).
                 load("https://shift-backend.onrender.com" + pizza!!.img).into(picture)
@@ -103,20 +121,7 @@ class PizzaDetailsFragment : Fragment() {
             }
             binding.price.text = "${priceSize + priceDough} ₽"
         }
-
-
-        //Toast.makeText(context, pizza?.name, Toast.LENGTH_SHORT).show()
-        // здесь через binding можем что-то делать с элементами, например нажать кнопку в радио кнопке
     }
-
-    /*
-    companion object {
-        @JvmStatic
-        fun newInstance() = PizzaDetailsFragment()
-    }
-
-     */
-
 
     companion object {
         @JvmStatic
@@ -125,11 +130,6 @@ class PizzaDetailsFragment : Fragment() {
                     putSerializable("pizza", pizza)
                 }
             }
-    }
-
-
-    private fun calculatePrice(pizza: Pizza) {
-
     }
 
 }
