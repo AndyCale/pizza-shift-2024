@@ -8,23 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.example.pizza_shift_2024.data.Add
 import com.example.pizza_shift_2024.data.Pizza
 import com.example.pizza_shift_2024.databinding.FragmentPizzaDetailsBinding
-
-
-//private const val ARG_PARAM1 = "param1"
-//private const val ARG_PARAM2 = "param2"
-
-
-/*
-<androidx.fragment.app.FragmentContainerView
-        android:id="@+id/frameInfoPizza"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.example.pizza_shift_2024.PizzaDetailsFragment"
-        tools:layout="@layout/fragment_pizza_details"/>
- */
 
 class PizzaDetailsFragment : Fragment() {
 
@@ -33,6 +21,7 @@ class PizzaDetailsFragment : Fragment() {
         get() = _binding ?: throw IllegalStateException("Binding in Main Activity must not be null")
 
     private var pizza: Pizza? = null
+    private val adapter = AddAdapter()
 
     var priceSize = 0
     var priceDough = 0
@@ -52,9 +41,6 @@ class PizzaDetailsFragment : Fragment() {
         _binding = FragmentPizzaDetailsBinding.inflate(inflater)
 
         return binding.root
-
-
-        //return inflater.inflate(R.layout.fragment_pizza_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -123,7 +109,6 @@ class PizzaDetailsFragment : Fragment() {
             name.text = pizza!!.name
             description.text = pizza!!.description
 
-
             small.isChecked = true
             thin.isChecked = true
             priceSize = pizza!!.sizes[0].price
@@ -134,7 +119,14 @@ class PizzaDetailsFragment : Fragment() {
             protein.text = pizza!!.protein
             totalFat.text = pizza!!.totalFat
             carbohydrates.text = pizza!!.carbohydrates
+
+            initAddList()
         }
     }
 
+    private fun initAddList() {
+        binding.add.layoutManager = GridLayoutManager(context, 3)
+        binding.add.adapter = adapter
+        adapter.initAdd(pizza?.toppings)
+    }
 }

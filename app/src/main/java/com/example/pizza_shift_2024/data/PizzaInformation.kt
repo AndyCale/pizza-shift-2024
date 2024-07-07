@@ -12,8 +12,9 @@ data class PizzaInformation(
 data class Pizza(
     val id: String,
     val name: String,
-    val ingredients: List<Ingredients>,
-    val toppings: List<Ingredients>,
+    val ingredients: List<Ingredients>, // ---------------
+    val toppings: ArrayList<Add>,
+    val allergens: List<String>, // ----------------
     val description: String,
     val sizes: List<Size>,
     val doughs: List<Size>,
@@ -24,11 +25,7 @@ data class Pizza(
     val img: String
 
     /*
-    val carbohydrates: String,
       "sodium": "string",
-      "allergens": [
-        "string"
-      ],
       "isVegetarian": true,
       "isGlutenFree": true,
       "isNew": true,
@@ -47,3 +44,9 @@ data class Size(
     val name: String,
     val price: Int
 )
+
+data class Add(
+    val name: String,
+    val img: String,
+    val cost: Int
+    )
