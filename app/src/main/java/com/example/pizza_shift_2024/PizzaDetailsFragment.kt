@@ -18,7 +18,7 @@ class PizzaDetailsFragment : Fragment() {
 
     private var _binding: FragmentPizzaDetailsBinding? = null
     private val binding: FragmentPizzaDetailsBinding
-        get() = _binding ?: throw IllegalStateException("Binding in Main Activity must not be null")
+        get() = _binding ?: throw IllegalStateException("Binding in PizzaDetails Fragment must not be null")
 
     private var pizza: Pizza? = null
     private val adapter = AddAdapter()
