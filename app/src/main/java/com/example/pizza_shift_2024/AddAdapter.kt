@@ -18,7 +18,7 @@ class AddAdapter: RecyclerView.Adapter<AddAdapter.AddHolder>() {
             Glide.with(context).load("https://shift-backend.onrender.com" + add.img)
                 .into(binding.picture)
             binding.nameA.text = add.name.lowercase()
-            binding.priceA.text = add.cost.toString().lowercase() + " ₽"
+            binding.priceA.text = add.cost.toString() + " ₽"
         }
     }
 
