@@ -14,14 +14,14 @@ import com.example.pizza_shift_2024.data.Add
 import com.example.pizza_shift_2024.data.Pizza
 import com.example.pizza_shift_2024.databinding.FragmentPizzaDetailsBinding
 
-class PizzaDetailsFragment : Fragment() {
+class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
 
     private var _binding: FragmentPizzaDetailsBinding? = null
     private val binding: FragmentPizzaDetailsBinding
         get() = _binding ?: throw IllegalStateException("Binding in PizzaDetails Fragment must not be null")
 
     private var pizza: Pizza? = null
-    private val adapter = AddAdapter()
+    private val adapter = MultipleAdapter(this)
 
     var priceSize = 0
     var priceDough = 0
@@ -59,11 +59,7 @@ class PizzaDetailsFragment : Fragment() {
         initFragment()
 
         binding.back.setOnClickListener {
-            val fm: FragmentManager? = fragmentManager
-            val ft: FragmentTransaction = fm!!.beginTransaction()
-            ft.remove(this)
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-            ft.commit()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         binding.size.setOnCheckedChangeListener { radioGroup, id ->
@@ -102,11 +98,7 @@ class PizzaDetailsFragment : Fragment() {
     private fun initFragment() {
         if (pizza == null) {
             Toast.makeText(requireContext(),"Что-то пошло не так", Toast.LENGTH_SHORT).show()
-            val fm: FragmentManager? = fragmentManager
-            val ft: FragmentTransaction = fm!!.beginTransaction()
-            ft.remove(this)
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-            ft.commit()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         with(binding) {
@@ -137,6 +129,13 @@ class PizzaDetailsFragment : Fragment() {
     private fun initAddList() {
         binding.add.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.add.adapter = adapter
-        adapter.initAdd(pizza?.toppings)
+        adapter.initItems(pizza?.toppings)
+    }
+
+    override fun onClick(add: Add) {
+        Toast.makeText(requireContext(), "wewe", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onClick(pizza: Pizza) {
     }
 }

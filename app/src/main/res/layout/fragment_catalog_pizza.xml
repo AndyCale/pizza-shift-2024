@@ -39,7 +39,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/allPizza"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             tools:listitem="@layout/list_item"
             android:layout_marginHorizontal="10dp"
             >
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
