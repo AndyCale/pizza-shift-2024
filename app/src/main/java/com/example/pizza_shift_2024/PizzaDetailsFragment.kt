@@ -8,40 +8,39 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.example.pizza_shift_2024.data.Add
 import com.example.pizza_shift_2024.data.Pizza
 import com.example.pizza_shift_2024.databinding.FragmentPizzaDetailsBinding
 
-
-//private const val ARG_PARAM1 = "param1"
-//private const val ARG_PARAM2 = "param2"
-
-
-/*
-<androidx.fragment.app.FragmentContainerView
-        android:id="@+id/frameInfoPizza"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.example.pizza_shift_2024.PizzaDetailsFragment"
-        tools:layout="@layout/fragment_pizza_details"/>
- */
-
-class PizzaDetailsFragment : Fragment() {
+class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
 
     private var _binding: FragmentPizzaDetailsBinding? = null
     private val binding: FragmentPizzaDetailsBinding
-        get() = _binding ?: throw IllegalStateException("Binding in Main Activity must not be null")
+        get() = _binding ?: throw IllegalStateException("Binding in PizzaDetails Fragment must not be null")
 
     private var pizza: Pizza? = null
+    private val adapter = MultipleAdapter(this)
 
     var priceSize = 0
     var priceDough = 0
     var priceAdd = 0
 
+    companion object {
+        @JvmStatic
+        fun newInstance(pizza: Pizza) = PizzaDetailsFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable("pizza", pizza)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            pizza = it.getSerializable("pizza") as Pizza?
+            pizza = it.getSerializable("pizza") as? Pizza ?:
+            error("Pizza is required on PizzaDetailesScreen. But it was null")
         }
     }
 
@@ -52,34 +51,27 @@ class PizzaDetailsFragment : Fragment() {
         _binding = FragmentPizzaDetailsBinding.inflate(inflater)
 
         return binding.root
-
-
-        //return inflater.inflate(R.layout.fragment_pizza_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initialFragment()
+        initFragment()
 
         binding.back.setOnClickListener {
-            val fm: FragmentManager? = fragmentManager
-            val ft: FragmentTransaction = fm!!.beginTransaction()
-            ft.remove(this)
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-            ft.commit()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         binding.size.setOnCheckedChangeListener { radioGroup, id ->
             when(id) {
                 R.id.small -> {
-                    priceSize = pizza!!.sizes[0].price
+                    pizza?.let{pizza -> priceSize = pizza.sizes[0].price}
                 }
                 R.id.medium -> {
-                    priceSize = pizza!!.sizes[1].price
+                    pizza?.let{pizza -> priceSize = pizza.sizes[1].price}
                 }
                 R.id.big -> {
-                    priceSize = pizza!!.sizes[2].price
+                    pizza?.let{pizza -> priceSize = pizza.sizes[2].price}
                 }
             }
             binding.price.text = "${priceSize + priceDough} ₽"
@@ -88,53 +80,62 @@ class PizzaDetailsFragment : Fragment() {
         binding.dough.setOnCheckedChangeListener { radioGroup, id ->
             when(id) {
                 R.id.thin -> {
-                    priceDough = pizza!!.doughs[0].price
+                    pizza?.let{pizza -> priceDough = pizza.doughs[0].price}
                 }
                 R.id.thick -> {
-                    priceDough = pizza!!.doughs[1].price
+                    pizza?.let{pizza -> priceDough = pizza.doughs[1].price}
                 }
             }
             binding.price.text = "${priceSize + priceDough} ₽"
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(pizza: Pizza) = PizzaDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable("pizza", pizza)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    private fun initialFragment() {
+    private fun initFragment() {
         if (pizza == null) {
-            Toast.makeText(context,"Что-то пошло не так", Toast.LENGTH_SHORT).show()
-            val fm: FragmentManager? = fragmentManager
-            val ft: FragmentTransaction = fm!!.beginTransaction()
-            ft.remove(this)
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-            ft.commit()
+            Toast.makeText(requireContext(),"Что-то пошло не так", Toast.LENGTH_SHORT).show()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         with(binding) {
-            Glide.with(context!!).load("https://shift-backend.onrender.com" + pizza!!.img)
-                .into(picture)
-            name.text = pizza!!.name
-            description.text = pizza!!.description
+            pizza?.let { pizza ->
 
+                Glide.with(requireContext()).load("https://shift-backend.onrender.com${pizza.img}")
+                    .into(picture)
+                name.text = pizza.name
+                description.text = pizza.description
 
-            small.isChecked = true
-            thin.isChecked = true
-            priceSize = pizza!!.sizes[0].price
-            priceDough = pizza!!.doughs[0].price
-            price.text = "${priceSize + priceDough} ₽"
+                small.isChecked = true
+                thin.isChecked = true
+                priceSize = pizza.sizes[0].price
+                priceDough = pizza.doughs[0].price
+                price.text = "${priceSize + priceDough} ₽"
 
-            calories.text = pizza!!.calories
-            protein.text = pizza!!.protein
-            totalFat.text = pizza!!.totalFat
-            carbohydrates.text = pizza!!.carbohydrates
+                calories.text = pizza.calories
+                protein.text = pizza.protein
+                totalFat.text = pizza.totalFat
+                carbohydrates.text = pizza.carbohydrates
+
+            }
+
+            initAddList()
         }
     }
 
+    private fun initAddList() {
+        binding.add.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.add.adapter = adapter
+        adapter.initItems(pizza?.toppings)
+    }
+
+    override fun onClick(add: Add) {
+        Toast.makeText(requireContext(), "Вы добавили ${add.name}", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onClick(pizza: Pizza) {
+    }
 }

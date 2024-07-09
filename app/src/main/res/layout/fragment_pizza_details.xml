@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PizzaDetailsFragment">
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="800dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginHorizontal="10dp">
 
@@ -138,7 +139,7 @@
                 android:layout_weight="2"/>
 
         </LinearLayout>
-        
+
         <RadioGroup
             android:id="@+id/size"
             android:layout_width="match_parent"
@@ -217,15 +218,37 @@
 
         </RadioGroup>
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_marginTop="20dp"
-        android:paddingHorizontal="15dp"
-        style="@style/textStyle"
-        android:text="100р"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/add"
+            style="@style/textStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:layout_marginTop="20dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/add"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+        <TextView
+            android:text="@string/price"
+            style="@style/textStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:paddingHorizontal="15dp"
+            style="@style/textStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 
-</FrameLayout>
+</androidx.core.widget.NestedScrollView>

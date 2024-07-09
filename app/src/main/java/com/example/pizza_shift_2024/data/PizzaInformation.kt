@@ -1,19 +1,21 @@
 package com.example.pizza_shift_2024.data
 
+import android.app.LauncherActivity
 import android.os.Parcelable
 import java.io.Serializable
 
 data class PizzaInformation(
     val success: Boolean,
     val reason: String,
-    val catalog: List<Pizza>
+    val catalog: ArrayList<Pizza>
     )
 
 data class Pizza(
     val id: String,
     val name: String,
-    val ingredients: List<Ingredients>,
-    val toppings: List<Ingredients>,
+    val ingredients: List<Ingredients>, // ---------------
+    val toppings: ArrayList<Add>,
+    val allergens: List<String>, // ----------------
     val description: String,
     val sizes: List<Size>,
     val doughs: List<Size>,
@@ -24,18 +26,18 @@ data class Pizza(
     val img: String
 
     /*
-    val carbohydrates: String,
       "sodium": "string",
-      "allergens": [
-        "string"
-      ],
       "isVegetarian": true,
       "isGlutenFree": true,
       "isNew": true,
       "isHit": true,
 
      */
-) : Serializable
+) : Serializable, LauncherActivity.ListItem() {
+    fun getType() : Int {
+        return 1
+    }
+}
 
 data class Ingredients(
     val name: String,
@@ -47,3 +49,13 @@ data class Size(
     val name: String,
     val price: Int
 )
+
+data class Add(
+    val name: String,
+    val img: String,
+    val cost: Int
+    ) : LauncherActivity.ListItem() {
+        fun getType() : Int {
+            return 0
+        }
+    }
