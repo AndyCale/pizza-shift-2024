@@ -133,7 +133,7 @@ class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
     }
 
     override fun onClick(add: Add) {
-        Toast.makeText(requireContext(), "wewe", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Вы добавили ${add.name}", Toast.LENGTH_SHORT).show()
     }
 
     override fun onClick(pizza: Pizza) {

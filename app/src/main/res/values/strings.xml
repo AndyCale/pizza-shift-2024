@@ -14,4 +14,7 @@
     <string name="protein">белки</string>
     <string name="totalFat">жиры</string>
     <string name="carbohydrates">углеводы</string>
+
+    <string name="add">Добавки:</string>
+    <string name="price">Итоговая цена:</string>
 </resources>
