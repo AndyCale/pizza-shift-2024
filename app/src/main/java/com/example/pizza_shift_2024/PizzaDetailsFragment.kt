@@ -121,23 +121,24 @@ class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
                 carbohydrates.text = pizza.carbohydrates
 
             }
-
             initAddList()
         }
     }
 
     private fun initAddList() {
-        binding.add.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.add.adapter = adapter
-        adapter.initItems(pizza?.toppings)
+        pizza?.let { pizza ->
+            binding.add.layoutManager = GridLayoutManager(requireContext(), 3)
+            binding.add.adapter = adapter
+            adapter.initItems(pizza.toppings)
+        }
     }
 
     override fun onClick(add: Add) {
         if (add.use) {
-            Toast.makeText(requireContext(), "Вы добавили ${add.name}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Вы добавили ${add.name.lowercase()}", Toast.LENGTH_SHORT).show()
             priceAdd -= add.cost
         } else {
-            Toast.makeText(requireContext(), "Вы убрали ${add.name}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Вы убрали ${add.name.lowercase()}", Toast.LENGTH_SHORT).show()
             priceAdd += add.cost
         }
         binding.price.text = "${priceSize + priceDough + priceAdd} ₽"

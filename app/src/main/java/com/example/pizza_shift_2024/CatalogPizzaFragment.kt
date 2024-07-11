@@ -49,7 +49,6 @@ class CatalogPizzaFragment : Fragment(), MultipleAdapter.Listener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         fillListOfPizza()
     }
 
@@ -72,9 +71,7 @@ class CatalogPizzaFragment : Fragment(), MultipleAdapter.Listener {
 
                 calculatePrice(pizza)
                 initCatalogList()
-            }
-
-            else {
+            } else {
                 Toast.makeText(requireActivity(), "Что-то пошло не так",
                     Toast.LENGTH_SHORT).show()
             }
@@ -85,7 +82,7 @@ class CatalogPizzaFragment : Fragment(), MultipleAdapter.Listener {
         for (onePizza in pizza.catalog) {
             val price = onePizza.sizes[0].price + onePizza.doughs[0].price
 
-            listPrice.add("от ${price} ₽") // цена из цены за размер + тесто
+            listPrice.add("от ${price} ₽")
         }
     }
 
@@ -104,10 +101,4 @@ class CatalogPizzaFragment : Fragment(), MultipleAdapter.Listener {
 
     override fun onClick(add: Add) {
     }
-
-
-
 }
-
-// цены с добавками
-

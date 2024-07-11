@@ -17,4 +17,8 @@
 
     <string name="add">Добавки:</string>
     <string name="price">Итоговая цена:</string>
+
+    <string name="name">Название</string>
+    <string name="description">Описание</string>
+    <string name="cost">Цена</string>
 </resources>

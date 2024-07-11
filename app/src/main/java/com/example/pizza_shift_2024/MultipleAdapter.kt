@@ -86,8 +86,8 @@ class MultipleAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerVie
         return itemList.size
     }
 
-    fun initItems(list: ArrayList<out LauncherActivity.ListItem>?) {
-        list?.let {
+    fun initItems(list: ArrayList<out LauncherActivity.ListItem>) {
+        list.let {
             itemList.clear()
             itemList.addAll(it)
             notifyDataSetChanged()
