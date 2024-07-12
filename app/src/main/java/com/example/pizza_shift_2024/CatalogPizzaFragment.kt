@@ -17,13 +17,13 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class CatalogPizzaFragment : Fragment(), MultipleAdapter.Listener {
+class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
 
     private var _binding: FragmentCatalogPizzaBinding? = null
     private val binding: FragmentCatalogPizzaBinding
         get() = _binding ?: throw IllegalStateException("Binding in CatalogPizza Fragment must not be null")
 
-    private val adapter = MultipleAdapter(this)
+    private val adapter = PizzaAdapter(this)
 
     private val listPictures = ArrayList<String>()
     private val listName = ArrayList<String>()
@@ -89,7 +89,7 @@ class CatalogPizzaFragment : Fragment(), MultipleAdapter.Listener {
     private fun initCatalogList() {
         binding.allPizza.layoutManager = LinearLayoutManager(requireContext())
         binding.allPizza.adapter = adapter
-        adapter.initItems(pizza.catalog, listPrice)
+        adapter.initPizza(pizza.catalog, listPrice)
     }
 
     override fun onClick(pizza: Pizza) {
@@ -99,6 +99,4 @@ class CatalogPizzaFragment : Fragment(), MultipleAdapter.Listener {
         fragment.commit()
     }
 
-    override fun onClick(add: Add) {
-    }
 }

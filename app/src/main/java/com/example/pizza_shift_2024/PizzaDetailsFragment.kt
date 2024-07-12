@@ -14,14 +14,14 @@ import com.example.pizza_shift_2024.data.Add
 import com.example.pizza_shift_2024.data.Pizza
 import com.example.pizza_shift_2024.databinding.FragmentPizzaDetailsBinding
 
-class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
+class PizzaDetailsFragment : Fragment(), AddAdapter.Listener {
 
     private var _binding: FragmentPizzaDetailsBinding? = null
     private val binding: FragmentPizzaDetailsBinding
         get() = _binding ?: throw IllegalStateException("Binding in PizzaDetails Fragment must not be null")
 
     private var pizza: Pizza? = null
-    private val adapter = MultipleAdapter(this)
+    private val adapter = AddAdapter(this)
 
     var priceSize = 0
     var priceDough = 0
@@ -129,21 +129,20 @@ class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
         pizza?.let { pizza ->
             binding.add.layoutManager = GridLayoutManager(requireContext(), 3)
             binding.add.adapter = adapter
-            adapter.initItems(pizza.toppings)
+            adapter.initAdd(pizza.toppings)
         }
     }
 
     override fun onClick(add: Add) {
         if (add.use) {
             Toast.makeText(requireContext(), "Вы добавили ${add.name.lowercase()}", Toast.LENGTH_SHORT).show()
-            priceAdd -= add.cost
+            priceAdd += add.cost
+
         } else {
             Toast.makeText(requireContext(), "Вы убрали ${add.name.lowercase()}", Toast.LENGTH_SHORT).show()
-            priceAdd += add.cost
+            priceAdd -= add.cost
         }
         binding.price.text = "${priceSize + priceDough + priceAdd} ₽"
     }
 
-    override fun onClick(pizza: Pizza) {
-    }
 }
