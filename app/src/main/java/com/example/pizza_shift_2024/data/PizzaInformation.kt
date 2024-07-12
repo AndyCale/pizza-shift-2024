@@ -53,7 +53,8 @@ data class Size(
 data class Add(
     val name: String,
     val img: String,
-    val cost: Int
+    val cost: Int,
+    var use: Boolean = false
     ) : LauncherActivity.ListItem() {
         fun getType() : Int {
             return 0

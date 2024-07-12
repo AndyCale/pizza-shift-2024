@@ -25,6 +25,14 @@ class MultipleAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerVie
             binding.priceA.text = add.cost.toString() + " ₽"
 
             itemView.setOnClickListener {
+                if (add.use) {
+                    binding.card.setBackgroundResource(R.color.white)
+                    add.use = false
+                } else {
+                    binding.card.setBackgroundResource(R.color.light_grey)
+                    add.use = true
+                }
+
                 listener.onClick(add)
             }
         }
@@ -78,8 +86,8 @@ class MultipleAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerVie
         return itemList.size
     }
 
-    fun initItems(list: ArrayList<out LauncherActivity.ListItem>?) {
-        list?.let {
+    fun initItems(list: ArrayList<out LauncherActivity.ListItem>) {
+        list.let {
             itemList.clear()
             itemList.addAll(it)
             notifyDataSetChanged()

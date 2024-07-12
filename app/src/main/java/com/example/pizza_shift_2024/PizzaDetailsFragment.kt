@@ -74,7 +74,7 @@ class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
                     pizza?.let{pizza -> priceSize = pizza.sizes[2].price}
                 }
             }
-            binding.price.text = "${priceSize + priceDough} ₽"
+            binding.price.text = "${priceSize + priceDough + priceAdd} ₽"
         }
 
         binding.dough.setOnCheckedChangeListener { radioGroup, id ->
@@ -86,7 +86,7 @@ class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
                     pizza?.let{pizza -> priceDough = pizza.doughs[1].price}
                 }
             }
-            binding.price.text = "${priceSize + priceDough} ₽"
+            binding.price.text = "${priceSize + priceDough + priceAdd} ₽"
         }
     }
 
@@ -121,19 +121,27 @@ class PizzaDetailsFragment : Fragment(), MultipleAdapter.Listener {
                 carbohydrates.text = pizza.carbohydrates
 
             }
-
             initAddList()
         }
     }
 
     private fun initAddList() {
-        binding.add.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.add.adapter = adapter
-        adapter.initItems(pizza?.toppings)
+        pizza?.let { pizza ->
+            binding.add.layoutManager = GridLayoutManager(requireContext(), 3)
+            binding.add.adapter = adapter
+            adapter.initItems(pizza.toppings)
+        }
     }
 
     override fun onClick(add: Add) {
-        Toast.makeText(requireContext(), "Вы добавили ${add.name}", Toast.LENGTH_SHORT).show()
+        if (add.use) {
+            Toast.makeText(requireContext(), "Вы добавили ${add.name.lowercase()}", Toast.LENGTH_SHORT).show()
+            priceAdd -= add.cost
+        } else {
+            Toast.makeText(requireContext(), "Вы убрали ${add.name.lowercase()}", Toast.LENGTH_SHORT).show()
+            priceAdd += add.cost
+        }
+        binding.price.text = "${priceSize + priceDough + priceAdd} ₽"
     }
 
     override fun onClick(pizza: Pizza) {

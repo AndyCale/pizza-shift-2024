@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/name"
-            android:text="Название"
+            android:text="@string/name"
             style="@style/textStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/description"
-            android:text="Описание"
+            android:text="@string/description"
             style="@style/textStyleDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
 
         <TextView
             android:id="@+id/price"
-            android:text="Цена"
+            android:text="@string/cost"
             style="@style/textStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
