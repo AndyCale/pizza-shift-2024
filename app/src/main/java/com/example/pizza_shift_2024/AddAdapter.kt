@@ -52,11 +52,9 @@ class AddAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerView.Vie
     }
 
     fun initAdd(list: ArrayList<Add>) {
-        list.let {
-            itemList.clear()
-            itemList.addAll(it)
-            notifyDataSetChanged()
-        }
+        itemList.clear()
+        itemList.addAll(list)
+        notifyDataSetChanged()
     }
 
     interface Listener {

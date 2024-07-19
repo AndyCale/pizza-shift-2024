@@ -6,16 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pizza_shift_2024.data.Add
-import com.example.pizza_shift_2024.data.Pizza
-import com.example.pizza_shift_2024.data.PizzaAPI
-import com.example.pizza_shift_2024.data.PizzaInformation
+import com.example.pizza_shift_2024.data.*
 import com.example.pizza_shift_2024.databinding.FragmentCatalogPizzaBinding
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
 
@@ -30,11 +28,10 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
     private val listDescription = ArrayList<String>()
     private val listPrice = ArrayList<String>()
 
-    val retrofit = Retrofit.Builder()
-        .baseUrl("https://shift-backend.onrender.com/")
-        .addConverterFactory(GsonConverterFactory.create()).build()
-    val pizzaAPI = retrofit.create(PizzaAPI::class.java)
-    private lateinit var pizza: PizzaInformation
+    val pizzaAPI = PizzaRepository().retrofit.create(PizzaAPI::class.java)
+    //private lateinit var pizza2: PizzaInformation
+
+    private lateinit var viewModel: PizzaViewModel
 
     companion object {
         @JvmStatic
@@ -49,7 +46,12 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fillListOfPizza()
+
+        viewModel = ViewModelProvider(this).get(PizzaViewModel::class.java)
+
+        viewModel.pizza.observe(this, Observer { pizza ->
+            fillListPizza(pizza)
+        })
     }
 
     override fun onDestroyView() {
@@ -57,24 +59,25 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
         _binding = null
     }
 
-    private fun fillListOfPizza() {
-        lifecycleScope.launch() {
-            pizza = pizzaAPI.getPizza()
+    private fun fillListPizza(pizza : PizzaInformation) {
+        if (pizza.success == true) {
+            listPictures.clear()
+            listName.clear()
+            listDescription.clear()
+            listPrice.clear()
 
-            if (pizza.success == true) {
-
-                for (onePizza in pizza.catalog) {
-                    listPictures.add(onePizza.img)
-                    listName.add(onePizza.name)
-                    listDescription.add(onePizza.description)
-                }
-
-                calculatePrice(pizza)
-                initCatalogList()
-            } else {
-                Toast.makeText(requireActivity(), "Что-то пошло не так",
-                    Toast.LENGTH_SHORT).show()
+            for (onePizza in pizza.catalog) {
+                listPictures.add(onePizza.img)
+                listName.add(onePizza.name)
+                listDescription.add(onePizza.description)
             }
+
+            calculatePrice(pizza)
+            initCatalogList(pizza)
+
+        } else {
+        Toast.makeText(requireActivity(), "Что-то пошло не так",
+            Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -86,7 +89,7 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
         }
     }
 
-    private fun initCatalogList() {
+    private fun initCatalogList(pizza: PizzaInformation) {
         binding.allPizza.layoutManager = LinearLayoutManager(requireContext())
         binding.allPizza.adapter = adapter
         adapter.initPizza(pizza.catalog, listPrice)
