@@ -10,8 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pizza_shift_2024.R
-import com.example.pizza_shift_2024.domain.adapters.PizzaAdapter
-import com.example.pizza_shift_2024.data.*
+import com.example.pizza_shift_2024.adapters.PizzaAdapter
 import com.example.pizza_shift_2024.databinding.FragmentCatalogPizzaBinding
 import com.example.pizza_shift_2024.domain.data.Pizza
 import com.example.pizza_shift_2024.domain.data.PizzaInformation
