@@ -1,4 +1,4 @@
-package com.example.pizza_shift_2024.data
+package com.example.pizza_shift_2024.domain.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.example.pizza_shift_2024
+package com.example.pizza_shift_2024.presentaion
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,13 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pizza_shift_2024.adapters.PizzaAdapter
+import com.example.pizza_shift_2024.R
+import com.example.pizza_shift_2024.domain.adapters.PizzaAdapter
 import com.example.pizza_shift_2024.data.*
 import com.example.pizza_shift_2024.databinding.FragmentCatalogPizzaBinding
+import com.example.pizza_shift_2024.domain.data.Pizza
+import com.example.pizza_shift_2024.domain.data.PizzaInformation
+import com.example.pizza_shift_2024.domain.data.PizzaViewModel
 
 class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
 
@@ -100,8 +104,10 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
     }
 
     override fun onClick(pizza: Pizza) {
-        val fragment = requireActivity().supportFragmentManager.beginTransaction().replace(R.id.framePizza,
-            PizzaDetailsFragment.newInstance(pizza))
+        val fragment = requireActivity().supportFragmentManager.beginTransaction().replace(
+            R.id.framePizza,
+            PizzaDetailsFragment.newInstance(pizza)
+        )
         fragment.addToBackStack(null)
         fragment.commit()
     }

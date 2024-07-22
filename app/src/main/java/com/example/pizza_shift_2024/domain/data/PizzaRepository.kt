@@ -1,4 +1,4 @@
-package com.example.pizza_shift_2024.data
+package com.example.pizza_shift_2024.domain.data
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
