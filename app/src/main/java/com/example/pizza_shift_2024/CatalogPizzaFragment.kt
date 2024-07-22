@@ -6,14 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pizza_shift_2024.adapters.PizzaAdapter
 import com.example.pizza_shift_2024.data.*
 import com.example.pizza_shift_2024.databinding.FragmentCatalogPizzaBinding
-import kotlinx.coroutines.launch
 
 class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
 
@@ -27,9 +25,6 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
     private val listName = ArrayList<String>()
     private val listDescription = ArrayList<String>()
     private val listPrice = ArrayList<String>()
-
-    val pizzaAPI = PizzaRepository().retrofit.create(PizzaAPI::class.java)
-    //private lateinit var pizza2: PizzaInformation
 
     private lateinit var viewModel: PizzaViewModel
 
@@ -50,7 +45,13 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
         viewModel = ViewModelProvider(this).get(PizzaViewModel::class.java)
 
         viewModel.pizza.observe(this, Observer { pizza ->
-            fillListPizza(pizza)
+            if (pizza.success) {
+                createPizzaCatalog(pizza)
+            }
+            else {
+                Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
+                requireActivity().supportFragmentManager.popBackStack()
+            }
         })
     }
 
@@ -59,8 +60,14 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
         _binding = null
     }
 
+    private fun createPizzaCatalog(pizza: PizzaInformation) {
+        fillListPizza(pizza)
+        calculatePrice(pizza)
+        initCatalogList(pizza)
+    }
+
     private fun fillListPizza(pizza : PizzaInformation) {
-        if (pizza.success == true) {
+        if (pizza.success) {
             listPictures.clear()
             listName.clear()
             listDescription.clear()
@@ -71,9 +78,6 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
                 listName.add(onePizza.name)
                 listDescription.add(onePizza.description)
             }
-
-            calculatePrice(pizza)
-            initCatalogList(pizza)
 
         } else {
         Toast.makeText(requireActivity(), "Что-то пошло не так",

@@ -3,6 +3,7 @@ package com.example.pizza_shift_2024
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import com.example.pizza_shift_2024.data.PizzaAPI
 import com.example.pizza_shift_2024.data.PizzaInformation
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding
         get() = _binding ?: throw IllegalStateException("Binding in Main Activity must not be null")
 
+    private var timeLastPressed = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -25,13 +28,22 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.framePizza,
             CatalogPizzaFragment.newInstance()).commit()
 
+        binding.reset.setOnClickListener {
+            if (timeLastPressed + 10000 < System.currentTimeMillis()) {
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.framePizza,
+                    CatalogPizzaFragment.newInstance()
+                ).commit()
+                timeLastPressed = System.currentTimeMillis()
+            }
+        }
+
     }
 
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
         if (count == 0) {
             super.onBackPressed()
-            //additional code
         } else {
             supportFragmentManager.popBackStack()
         }

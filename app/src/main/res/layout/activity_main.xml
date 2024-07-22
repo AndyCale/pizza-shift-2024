@@ -12,5 +12,27 @@
         android:id="@+id/framePizza"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Inverse"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="200dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loading"
+        style="@style/textStyle"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80dp"
+        android:text="@string/reset"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

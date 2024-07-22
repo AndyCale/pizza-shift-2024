@@ -1,16 +1,14 @@
-package com.example.pizza_shift_2024
+package com.example.pizza_shift_2024.adapters
 
-import android.app.LauncherActivity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.pizza_shift_2024.R
 import com.example.pizza_shift_2024.data.Add
-import com.example.pizza_shift_2024.data.Pizza
 import com.example.pizza_shift_2024.databinding.AddItemBinding
-import com.example.pizza_shift_2024.databinding.ListItemBinding
 
 class AddAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemList = ArrayList<Add>()

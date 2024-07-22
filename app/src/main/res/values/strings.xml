@@ -3,6 +3,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="Pizza">Пицца</string>
+    <string name="error">Что-то пошло не так, попробуйте позже</string>
+    <string name="reset">Попробовать еще раз...</string>
+    <string name="loading">Загрузка...</string>
 
     <string name="small">Маленькая</string>
     <string name="medium">Средняя</string>
