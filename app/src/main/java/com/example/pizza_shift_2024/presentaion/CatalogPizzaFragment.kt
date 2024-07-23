@@ -1,6 +1,7 @@
 package com.example.pizza_shift_2024.presentaion
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pizza_shift_2024.R
 import com.example.pizza_shift_2024.adapters.PizzaAdapter
 import com.example.pizza_shift_2024.databinding.FragmentCatalogPizzaBinding
-import com.example.pizza_shift_2024.domain.data.Pizza
-import com.example.pizza_shift_2024.domain.data.PizzaInformation
-import com.example.pizza_shift_2024.domain.data.PizzaViewModel
+import com.example.pizza_shift_2024.data.Pizza
+import com.example.pizza_shift_2024.data.PizzaInformation
+import com.example.pizza_shift_2024.data.PizzaViewModel
 
 class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
 
@@ -29,7 +30,9 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
     private val listDescription = ArrayList<String>()
     private val listPrice = ArrayList<String>()
 
-    private lateinit var viewModel: PizzaViewModel
+    private val viewModel: PizzaViewModel by lazy {
+        ViewModelProvider(this).get(PizzaViewModel::class.java)
+    }
 
     companion object {
         @JvmStatic
@@ -45,10 +48,8 @@ class CatalogPizzaFragment : Fragment(), PizzaAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(PizzaViewModel::class.java)
-
         viewModel.pizza.observe(this, Observer { pizza ->
-            if (pizza.success) {
+            if (pizza != null && pizza.success) {
                 createPizzaCatalog(pizza)
             }
             else {

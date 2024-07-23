@@ -1,4 +1,4 @@
-package com.example.pizza_shift_2024.domain.data
+package com.example.pizza_shift_2024.data
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,4 +27,6 @@ class PizzaRepository {
     private fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
+
+
 }

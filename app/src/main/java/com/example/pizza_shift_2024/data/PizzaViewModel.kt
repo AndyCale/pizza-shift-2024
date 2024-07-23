@@ -1,5 +1,6 @@
-package com.example.pizza_shift_2024.domain.data
+package com.example.pizza_shift_2024.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +15,13 @@ class PizzaViewModel : ViewModel() {
         val pizzaAPI = PizzaRepository().retrofit.create(PizzaAPI::class.java)
 
         viewModelScope.launch {
-            _pizza.value = pizzaAPI.getPizza()
+            try {
+                _pizza.value = pizzaAPI.getPizza()
+            } catch (ce : CancellationException) {
+                throw ce
+            } catch (ex : Exception) {
+                Log.d("PizzaApi", "Что-то пошло не так! $ex")
+            }
         }
     }
 }

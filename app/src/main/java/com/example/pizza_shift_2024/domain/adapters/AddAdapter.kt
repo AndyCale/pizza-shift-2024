@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.R
 import com.example.pizza_shift_2024.databinding.AddItemBinding
-import com.example.pizza_shift_2024.domain.data.Add
+import com.example.pizza_shift_2024.data.Add
 
 class AddAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemList = ArrayList<Add>()

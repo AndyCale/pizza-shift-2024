@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.R
 import com.example.pizza_shift_2024.databinding.ListItemBinding
-import com.example.pizza_shift_2024.domain.data.Pizza
+import com.example.pizza_shift_2024.data.Pizza
 
 
 class PizzaAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
