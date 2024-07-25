@@ -13,12 +13,18 @@ import kotlinx.coroutines.*
 class PizzaViewModel : ViewModel() {
     private val _pizza = MutableLiveData<PizzaInformation>()
     val pizza: LiveData<PizzaInformation> get() = _pizza
+    val pizzaAPI = PizzaRepository().retrofit.create(PizzaAPI::class.java)
 
     init {
         Log.d("PizzaApi", "created")
+        initializatioData()
+    }
 
-        val pizzaAPI = PizzaRepository().retrofit.create(PizzaAPI::class.java)
+    fun reset() {
+        initializatioData()
+    }
 
+    private fun initializatioData() {
         viewModelScope.launch {
             try {
                 _pizza.value = pizzaAPI.getPizza()

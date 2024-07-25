@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.pizza_shift_2024.R
 import com.example.pizza_shift_2024.databinding.FragmentCatalogPizzaBinding
+import com.example.pizza_shift_2024.domain.models.Pizza
+import com.example.pizza_shift_2024.domain.models.PizzaInformation
 import com.example.pizza_shift_2024.presentaion.usecase.PizzaViewModel
 import com.example.pizza_shift_2024.presentaion.usecase.CreatorListRecyclerView
 
@@ -20,33 +22,35 @@ class CatalogPizzaFragment : Fragment() {
     private val binding: FragmentCatalogPizzaBinding
         get() = _binding ?: throw IllegalStateException("Binding in CatalogPizza Fragment must not be null")
 
-    private val viewModel: PizzaViewModel by lazy {
-        ViewModelProvider(this).get(PizzaViewModel::class.java)
-    }
+    private lateinit var pizza: PizzaInformation
 
     companion object {
         @JvmStatic
-        fun newInstance() = CatalogPizzaFragment()
+        fun newInstance(pizza: PizzaInformation) = CatalogPizzaFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable("pizza", pizza)
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            pizza = it.getSerializable("pizza") as? PizzaInformation ?:
+                    error("Pizza is required on PizzaDetailesScreen. But it was null")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = FragmentCatalogPizzaBinding.inflate(inflater)
+        CreatorListRecyclerView(requireActivity(), pizza).createPizzaCatalog(binding.allPizza)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.pizza.observe(this, Observer { pizza ->
-            if (pizza != null && pizza.success) {
-                CreatorListRecyclerView(requireActivity(), pizza).createPizzaCatalog(binding.allPizza)
-            }
-            else {
-                Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
-                requireActivity().supportFragmentManager.popBackStack()
-            }
-        })
     }
 
     override fun onDestroyView() {

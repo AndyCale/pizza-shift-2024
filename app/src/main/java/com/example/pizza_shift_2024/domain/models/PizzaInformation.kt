@@ -7,7 +7,7 @@ data class PizzaInformation(
     val success: Boolean,
     val reason: String,
     val catalog: ArrayList<Pizza>
-)
+) : Serializable
 
 data class Pizza(
     val id: String,
