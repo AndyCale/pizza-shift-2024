@@ -10,24 +10,23 @@ import com.example.pizza_shift_2024.data.PizzaRepository
 import com.example.pizza_shift_2024.domain.models.PizzaInformation
 import kotlinx.coroutines.*
 
-class PizzaViewModel : ViewModel() {
+class PizzaViewModel(private val repository: PizzaRepository) : ViewModel() {
     private val _pizza = MutableLiveData<PizzaInformation>()
     val pizza: LiveData<PizzaInformation> get() = _pizza
-    val pizzaAPI = PizzaRepository().retrofit.create(PizzaAPI::class.java)
 
     init {
         Log.d("PizzaApi", "created")
-        initializatioData()
+        initializationData()
     }
 
     fun reset() {
-        initializatioData()
+        initializationData()
     }
 
-    private fun initializatioData() {
+    private fun initializationData() {
         viewModelScope.launch {
             try {
-                _pizza.value = pizzaAPI.getPizza()
+                _pizza.value = repository.getPizza()
             } catch (ce : CancellationException) {
                 throw ce
             } catch (ex : Exception) {

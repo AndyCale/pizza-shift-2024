@@ -1,5 +1,6 @@
 package com.example.pizza_shift_2024.data
 
+import com.example.pizza_shift_2024.domain.models.PizzaInformation
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,6 +9,7 @@ import java.util.concurrent.TimeUnit
 
 class PizzaRepository {
     private companion object {
+
         const val BASE_URL = "https://shift-backend.onrender.com/"
         const val TIME_OUT = 10L
     }
@@ -28,7 +30,7 @@ class PizzaRepository {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-
-
+    private val pizzaAPI = retrofit.create(PizzaAPI::class.java)
+    suspend fun getPizza() : PizzaInformation = pizzaAPI.getPizza()
 
 }
