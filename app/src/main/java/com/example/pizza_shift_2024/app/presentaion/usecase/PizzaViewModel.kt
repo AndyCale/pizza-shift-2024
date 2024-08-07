@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pizza_shift_2024.catalog.domain.data.PizzaRepository
-import com.example.pizza_shift_2024.catalog.domain.models.PizzaInformation
+import com.example.pizza_shift_2024.feature.catalog.domain.data.PizzaRepository
+import com.example.pizza_shift_2024.feature.catalog.domain.models.PizzaInformation
 import kotlinx.coroutines.*
 
 class PizzaViewModel(private val repository: PizzaRepository) : ViewModel() {

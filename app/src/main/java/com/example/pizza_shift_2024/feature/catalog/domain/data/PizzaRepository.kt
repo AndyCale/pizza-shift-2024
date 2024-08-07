@@ -1,18 +1,30 @@
-package com.example.pizza_shift_2024.catalog.domain.data
+package com.example.pizza_shift_2024.feature.catalog.domain.data
 
-import com.example.pizza_shift_2024.catalog.domain.models.PizzaInformation
+import com.example.pizza_shift_2024.app.presentaion.usecase.PizzaViewModel
+import com.example.pizza_shift_2024.feature.catalog.domain.models.Pizza
+import com.example.pizza_shift_2024.feature.catalog.domain.models.PizzaInformation
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
+import org.koin.java.KoinJavaComponent.get
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.singleOf
+import org.koin.java.KoinJavaComponent.inject
+import org.koin.ktor.ext.inject
 
 const val BASE_URL = "https://shift-backend.onrender.com/"
 const val TIME_WAIT = 10L
 
 val pizzaRepository = module {
+    single<PizzaRepository> { PizzaRepository(get<PizzaAPI>()) }
+
+    single<PizzaAPI> { get<Retrofit>().create(PizzaAPI::class.java) }
+
     single<Retrofit> {
         Retrofit.Builder()
             .client(get())
@@ -25,7 +37,7 @@ val pizzaRepository = module {
             .connectTimeout(TIME_WAIT, TimeUnit.SECONDS)
             .writeTimeout(TIME_WAIT, TimeUnit.SECONDS)
             .readTimeout(TIME_WAIT, TimeUnit.SECONDS)
-            .addInterceptor(get<Interceptor>())
+            .addInterceptor(get<HttpLoggingInterceptor>())
             .build()
     }
 
@@ -34,10 +46,9 @@ val pizzaRepository = module {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
-
 }
 
-class PizzaRepository {
+class PizzaRepository(private val pizzaApi : PizzaAPI) {
     private companion object {
 
         const val BASE_URL = "https://shift-backend.onrender.com/"
@@ -60,7 +71,6 @@ class PizzaRepository {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    private val pizzaAPI = retrofit.create(PizzaAPI::class.java)
-    suspend fun getPizza() : PizzaInformation = pizzaAPI.getPizza()
+    suspend fun getPizza() : PizzaInformation = pizzaApi.getPizza()
 
 }

@@ -1,14 +1,14 @@
-package com.example.pizza_shift_2024.catalog.usecase
+package com.example.pizza_shift_2024.feature.catalog.usecase
 
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pizza_shift_2024.R
-import com.example.pizza_shift_2024.catalog.adapter.PizzaAdapter
-import com.example.pizza_shift_2024.catalog.domain.models.Pizza
-import com.example.pizza_shift_2024.catalog.domain.models.PizzaInformation
-import com.example.pizza_shift_2024.details.presentaion.PizzaDetailsFragment
+import com.example.pizza_shift_2024.feature.catalog.adapter.PizzaAdapter
+import com.example.pizza_shift_2024.feature.catalog.domain.models.Pizza
+import com.example.pizza_shift_2024.feature.catalog.domain.models.PizzaInformation
+import com.example.pizza_shift_2024.feature.details.presentaion.PizzaDetailsFragment
 
 class CreatorListRecyclerView(
     private val activity: FragmentActivity,

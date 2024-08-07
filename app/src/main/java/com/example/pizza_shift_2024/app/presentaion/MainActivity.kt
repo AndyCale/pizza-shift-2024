@@ -4,16 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.pizza_shift_2024.R
-import com.example.pizza_shift_2024.catalog.presentaion.CatalogPizzaFragment
-import com.example.pizza_shift_2024.catalog.domain.data.PizzaRepository
+import com.example.pizza_shift_2024.feature.catalog.presentaion.CatalogPizzaFragment
+import com.example.pizza_shift_2024.feature.catalog.domain.data.PizzaRepository
 import com.example.pizza_shift_2024.databinding.ActivityMainBinding
 import com.example.pizza_shift_2024.app.presentaion.usecase.PizzaViewModel
-import com.example.pizza_shift_2024.app.presentaion.usecase.PizzaViewModelFactory
-import com.example.pizza_shift_2024.catalog.domain.models.PizzaInformation
-
+import com.example.pizza_shift_2024.feature.catalog.domain.models.PizzaInformation
+import org.koin.androidx.viewmodel.ext.android.viewModel
+//import org.koin.androidx.compose.koinViewModel
+//AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -22,11 +23,16 @@ class MainActivity : AppCompatActivity() {
 
     private var timeLastPressed = 0L
 
-    private val repository = PizzaRepository()
+    //private val repository = PizzaRepository()
 
-    private val viewModel: PizzaViewModel by lazy {
+    private val viewModel by viewModel<PizzaViewModel>()
+
+        /*
+    private val vm: PizzaViewModel by lazy {
         ViewModelProvider(this, PizzaViewModelFactory(repository)).get(PizzaViewModel::class.java)
     }
+
+         */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("PizzaApi", "1")

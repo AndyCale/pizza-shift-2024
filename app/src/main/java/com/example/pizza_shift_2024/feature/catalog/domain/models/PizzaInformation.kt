@@ -1,4 +1,4 @@
-package com.example.pizza_shift_2024.catalog.domain.models
+package com.example.pizza_shift_2024.feature.catalog.domain.models
 
 import android.app.LauncherActivity
 import java.io.Serializable

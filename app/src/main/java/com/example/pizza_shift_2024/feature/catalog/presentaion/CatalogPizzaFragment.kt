@@ -1,4 +1,4 @@
-package com.example.pizza_shift_2024.catalog.presentaion
+package com.example.pizza_shift_2024.feature.catalog.presentaion
 
 import android.os.Bundle
 import android.util.Log
@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pizza_shift_2024.catalog.domain.models.PizzaInformation
+import com.example.pizza_shift_2024.feature.catalog.domain.models.PizzaInformation
 import com.example.pizza_shift_2024.databinding.FragmentCatalogPizzaBinding
-import com.example.pizza_shift_2024.catalog.usecase.CreatorListRecyclerView
+import com.example.pizza_shift_2024.feature.catalog.usecase.CreatorListRecyclerView
 
 class CatalogPizzaFragment : Fragment() {
 
