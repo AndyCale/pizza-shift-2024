@@ -1,22 +1,18 @@
-package com.example.pizza_shift_2024.presentaion
+package com.example.pizza_shift_2024.app.presentaion
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pizza_shift_2024.R
-import com.example.pizza_shift_2024.data.PizzaRepository
+import com.example.pizza_shift_2024.catalog.presentaion.CatalogPizzaFragment
+import com.example.pizza_shift_2024.catalog.domain.data.PizzaRepository
 import com.example.pizza_shift_2024.databinding.ActivityMainBinding
-import com.example.pizza_shift_2024.domain.models.Pizza
-import com.example.pizza_shift_2024.domain.models.PizzaInformation
-import com.example.pizza_shift_2024.presentaion.usecase.CreatorListRecyclerView
-import com.example.pizza_shift_2024.presentaion.usecase.PizzaViewModel
-import com.example.pizza_shift_2024.presentaion.usecase.PizzaViewModelFactory
+import com.example.pizza_shift_2024.app.presentaion.usecase.PizzaViewModel
+import com.example.pizza_shift_2024.app.presentaion.usecase.PizzaViewModelFactory
+import com.example.pizza_shift_2024.catalog.domain.models.PizzaInformation
 
 
 class MainActivity : AppCompatActivity() {

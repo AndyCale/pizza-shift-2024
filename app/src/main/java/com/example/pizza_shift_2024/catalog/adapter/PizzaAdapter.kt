@@ -1,4 +1,4 @@
-package com.example.pizza_shift_2024.adapters
+package com.example.pizza_shift_2024.catalog.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.R
+import com.example.pizza_shift_2024.catalog.domain.models.Pizza
 import com.example.pizza_shift_2024.databinding.ListItemBinding
-import com.example.pizza_shift_2024.domain.models.Pizza
 
 
 class PizzaAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

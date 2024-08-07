@@ -1,13 +1,12 @@
-package com.example.pizza_shift_2024.presentaion.usecase
+package com.example.pizza_shift_2024.app.presentaion.usecase
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pizza_shift_2024.data.PizzaAPI
-import com.example.pizza_shift_2024.data.PizzaRepository
-import com.example.pizza_shift_2024.domain.models.PizzaInformation
+import com.example.pizza_shift_2024.catalog.domain.data.PizzaRepository
+import com.example.pizza_shift_2024.catalog.domain.models.PizzaInformation
 import kotlinx.coroutines.*
 
 class PizzaViewModel(private val repository: PizzaRepository) : ViewModel() {

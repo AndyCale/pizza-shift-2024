@@ -1,4 +1,4 @@
-package com.example.pizza_shift_2024.presentaion
+package com.example.pizza_shift_2024.details.presentaion
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.pizza_shift_2024.R
 import com.example.pizza_shift_2024.adapters.AddAdapter
+import com.example.pizza_shift_2024.catalog.domain.models.Add
+import com.example.pizza_shift_2024.catalog.domain.models.Pizza
 import com.example.pizza_shift_2024.databinding.FragmentPizzaDetailsBinding
-import com.example.pizza_shift_2024.domain.models.Add
-import com.example.pizza_shift_2024.domain.models.Pizza
 
 class PizzaDetailsFragment : Fragment(), AddAdapter.Listener {
 

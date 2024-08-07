@@ -1,6 +1,6 @@
-package com.example.pizza_shift_2024.data
+package com.example.pizza_shift_2024.catalog.domain.data
 
-import com.example.pizza_shift_2024.domain.models.PizzaInformation
+import com.example.pizza_shift_2024.catalog.domain.models.PizzaInformation
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

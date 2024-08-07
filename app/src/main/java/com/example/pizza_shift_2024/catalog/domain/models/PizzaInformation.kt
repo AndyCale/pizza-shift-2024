@@ -1,7 +1,8 @@
-package com.example.pizza_shift_2024.domain.models
+package com.example.pizza_shift_2024.catalog.domain.models
 
 import android.app.LauncherActivity
 import java.io.Serializable
+
 
 data class PizzaInformation(
     val success: Boolean,
